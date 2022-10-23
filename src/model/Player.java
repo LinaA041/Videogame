@@ -76,7 +76,7 @@ private Level levelPlayer;
 		
 		msg += "\nPlayer info: "
 		+"\nPlayer Nickname : "+ this.nickName
-		+"\nPlayer´s name: "+this.name
+		+"\nPlayer name: "+this.name
 		+"\nScore: "+this.score
 		+"\nNumber of lives: "+this.numberLives;
 		

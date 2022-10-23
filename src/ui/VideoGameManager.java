@@ -4,6 +4,9 @@ import model.VideoGameController;
 
 import java.util.Scanner;
 
+// Description: this program simulates a video game and the different requirements it may have, such as,
+// registering players, adding treasures to a level, knowing the most repeated treasure, among others...
+
  public class VideoGameManager {
 	
 	public static Scanner sc = new Scanner(System.in);
@@ -18,10 +21,19 @@ import java.util.Scanner;
 	 
     }
 	
+	/**
+	 * Description:is responsible for recording, displaying and storing 
+	 * the ten levels with their respective points. 
+	 * pre:none
+	 * pos: none
+	 * @return not return
+	 */
 	private static void level(){
 		
 		
 		boolean exit = false;
+		int count = 0;
+
 
 		while (!exit) {	
 		
@@ -32,44 +44,45 @@ import java.util.Scanner;
 		System.out.println("2.View registered levels");
 	    System.out.println("3.Exit");
 		int choice = sc.nextInt();
-		
-		int count = 0;
-			
+	
 		 switch (choice) {
 			 
 			case 1:
-			
 			while(count<10){
 				System.out.println("type the level identifier number ");
 				int identifierNumber = sc.nextInt();
 				
-				System.out.println("type the level identifier number ");
+				System.out.println("Type the points needed to pass the level  ");
 				int passingPoints = sc.nextInt();
 				
 				if (gameController.registerLevel(identifierNumber,passingPoints)) {
 
 					System.out.println("level successfully registered");
-
+                    count+=1;
 				} else {
 					System.out.println("Error,level could not be registered");
 				}
-			}
-             break;
+			} break;
 			 
 			case 2: 
 			System.out.println(gameController.showLevels());
 			break;
-			
 			default:
 			if(count!=0){		
 				exit = true;
 				break;
 			}
-	        }
+	    }
 			
 		}
 	}
 	
+	/**
+	 * Description: Displays by console the possible options that the user can choose from 
+	 * pre: none
+	 * pos: none
+	 * @return not return
+	 */
 	private static void menu(){
 	
 		boolean exit = false;
@@ -78,7 +91,11 @@ import java.util.Scanner;
 			
 			System.out.println("Type an option\n1.Register Player\n2.Show Players\n3.Register Enemy\n4.Show enemies");
 			System.out.println("5.Register Treasure\n6.Show Treasures\n7.Add an enemy to a level\n8.Add a treasure to a level");
-			System.out.println("9.modify the player's score\n10.Assign player level\n11.Exit");
+			System.out.println("9.modify the player's score\n10.Assign player level\n11.Know the treasures and enemies of a level");
+			System.out.println("12.To know the amount of treasure at all levels\n13.To know the amount of one type of enemy at all levels");
+			System.out.println("14.Know the most repeated treasure \n15.Know the enemy that gives the highest score and the level where it is located.");
+			System.out.println("16.Report the number of consonants found in the names of the enemies in the game\n17.Top 5 players with the highest score");
+			System.out.println("18.Exit");
 			int option = sc.nextInt();
 			
 		
@@ -109,12 +126,33 @@ import java.util.Scanner;
 			   addTreasureToLevel();
 			   break;
 			case 9:
-			    //requirement in process 
+			    assignPlayerScore();
 			   break;
 			case 10:
-			  //requirement in process
+			    assignPlayerLevel();
 			  break;
 			case 11:
+			    reportTreasuresAndEnemies();
+			  break;
+			case 12:
+			     amountOfATreasure();
+			  break;
+			case 13:
+			    calculateQuantityOfEnemyType();
+			  break;
+			case 14: 
+			   System.out.println(gameController.reportingRepeatedTreasure());
+			   break;
+			case 15:
+			   System.out.println(gameController.obtainEnemyWhoAwardsMostPoints());
+			  break;
+			case 16:
+			  System.out.println(gameController.obtainNumberOfEnemyConsonants());
+			  break;
+			case 17:
+			   System.out.println(gameController.consultTopFivePlayers());
+			  break;
+			case 18:
 				exit = true;
 				System.out.println("Thanks for using our system");
 				break;
@@ -127,6 +165,13 @@ import java.util.Scanner;
 		
 	}
 	
+	/**
+	 * Description: This metod request by console the data of the player to be registered and 
+	 * saves it in the respective array.
+	 * pre: none
+	 * pos: none
+	 * @return: not return
+	 */
 	private static void registerPlayer(){
 
 	  System.out.println("Enter the player's nickname ");
@@ -146,6 +191,13 @@ import java.util.Scanner;
 
 	}
 	
+
+	/**
+	 * Description:Requests the necessary data to register an enemy and to be able to locate him in the array. 
+	 * pre:none
+	 * pos:none
+	 * @return: not return
+	 */
 	private static void registerEnemy(){
 		
 		System.out.println("Type the name of the enemy");
@@ -171,6 +223,12 @@ import java.util.Scanner;
 		
 	}
 	
+	 /**
+	 * Description: Prompts the user for data about the treasure to be registered 
+	 * pre: none
+	 * pos: none
+	 * return: not return
+	 */
 	private static void registerTreasure(){
 		
 		System.out.println("Type the name of the treasure ");
@@ -196,57 +254,70 @@ import java.util.Scanner;
 		
 	}
 	
+	/**
+	 * Description: Places the player in the corresponding level 
+	 * pre:none
+	 * pos: none
+	 * @return not return
+	 */
 	private static void assignPlayerLevel(){
 		
 		System.out.println(gameController.showPlayers());
 		int playerPosition = sc.nextInt();
+	
+		System.out.println(gameController.showLevels());
+		int levelPosition = sc.nextInt();
 		
-		System.out.println("Digite el puntaje del jugador");
+		System.out.println("Type the player's score");
 		int score = sc.nextInt();
 		
-		if(gameController.assignPlayerLevel(playerPosition,score))
+		gameController.incrementPlayerLevel(playerPosition,levelPosition, score);
 		
 	       System.out.println("Player has already been assigned to the corresponding level");
-
-		} else {
-			System.out.println("Error, player level could not be assigned");
-		}	
-		
-		
-	}
+	}	
 	
-		private static void assignPlayerScore(){
+	/**
+	 * Description: Allows to change the score of the player indicated by the user 
+	 * pre:none
+	 * pos:none
+	 * @return not return
+	 */
+	private static void assignPlayerScore(){
 		
 		System.out.println(gameController.showPlayers());
+		
 		int playerPosition = sc.nextInt();
 		
 		System.out.println("Digite el nuevo puntaje del jugador");
 		int score = sc.nextInt();
 		
-		gameController.assignPlayerLevel(playerPosition,score)
+		gameController.assignPlayerScore(playerPosition,score);
 		
-	       System.out.println("el puntaje del jugador fue cambiado con exito");
-
-			
-		
+	    System.out.println("el puntaje del jugador fue cambiado con exito");
 		
 	}
 	
+	/**
+	 * Description: Displays the list of existing enemies and places it at the level desired by the user 
+	 * pre: none
+	 * pos: none 
+	 * @return not return 
+	 */
 	private static void addEnemyToLevel(){
 		
 		System.out.println(gameController.showLevels());
 		
-		int number = sc.nextInt();
+		int numberLevel = sc.nextInt();
 		
 		System.out.println(gameController.showEnemies());
-		sc.nextLine();
-		String name = sc.nextLine();
 		
-		if(gameController.addEnemyToLevel(number, name)){
+		int enemyPosition = sc.nextInt();
+		
+		if(gameController.addEnemyToLevel(numberLevel, enemyPosition)){
 			
 		  System.out.println("Enemy was successfully added to the level");
 			
-		} else {
+		}else {
 			
 		  System.out.println("Error,enemy could not be added to the level");
 			
@@ -254,6 +325,12 @@ import java.util.Scanner;
 		
 	}
 	
+	/**
+	 * Description: As the name says, adds or assigns a treasure to a given level 
+	 * pre:none
+	 * pos:none
+	 * @return: no return
+	 */
 	private static void addTreasureToLevel(){
 		
 		System.out.println(gameController.showLevels());
@@ -262,13 +339,13 @@ import java.util.Scanner;
 		
 		System.out.println(gameController.showTreasures());
 		sc.nextLine();
-		String treasureNumber = sc.nextLine();
+		int treasureNumber = sc.nextInt();
 		
 		if(gameController.addTreasureToLevel(levelNumber, treasureNumber)){
 			
 		  System.out.println("The treasure was successfully added to the level");
 			
-		} else {
+		}else {
 			
 		  System.out.println("Error,treasure could not be added to the level");
 			
@@ -276,6 +353,56 @@ import java.util.Scanner;
 		
 	}
 	
+	/**
+	 * Description: Gets the report of the number of enemies and treasures located in a level previously
+	 * indicated by the user
+	 * pre: none
+	 * pos: none
+	 * @return not return
+	 */
+	private static void reportTreasuresAndEnemies (){
+		
+		System.out.println("A continuacion, elija el nivel del cual desea el informe");
+		
+		System.out.println(gameController.showLevels());
+		
+		int levelPosition = sc.nextInt();
+		
+		gameController.reportNumberEnemiesAndLevels(levelPosition);
+		
+	}
+		
+	/**
+	 * Description:Displays the treasures by console and prompts the user to enter the name of the treasure
+	 * for which he/she wishes to know the amount avaible.
+	 * pre: none
+	 * pos: none
+	 * @return not return
+	 */
+	private static void amountOfATreasure(){
+		
+		System.out.println(gameController.showTreasures());
+		
+		System.out.println("Type the name of the treasure you wish to consult");
+		String treasureName = sc.nextLine();
+		
+		gameController.amountOfATreasure(treasureName);
+		
+	}
 	
-	
+	/**
+	 * Description:Displays by console the existing types of enemies and calls the method that will
+	 * calculate the exisiting quantity of such enemy.
+	 * pre: none
+	 * pos: none
+	 * @return no return
+	 */
+	private static void calculateQuantityOfEnemyType(){
+		
+		System.out.println("Type in the number that corresponds to the type of enemy you want");
+		System.out.println("0.Ogres\n1.Abstracts\n2.Bosses\n3.Magic");
+		int enemyType = sc.nextInt();
+		
+		 System.out.println(gameController.calculateQuantityOfEnemyType(enemyType));
+	}
 }

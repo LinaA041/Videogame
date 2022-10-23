@@ -9,7 +9,7 @@ private int quantity;
 private int positionX;
 private int positionY;
 
-	public Treasure(String treasureName, String imageUrl, int treasureValue, int quantity){
+	public Treasure(String treasureName, String imageUrl, int treasureValue, int quantity, int positionX, int positionY ){
 		
 		this.treasureName = treasureName;
 		this.imageUrl = imageUrl;

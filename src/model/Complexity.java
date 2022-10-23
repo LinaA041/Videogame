@@ -2,6 +2,6 @@ package model;
 
 public enum Complexity {
 
-   BAJO, MEDIO, ALTO 
+   LOW, MIDDLE, HIGH
 
 }

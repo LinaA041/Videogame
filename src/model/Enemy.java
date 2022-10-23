@@ -11,7 +11,7 @@ private int positionX;
 private int positionY;
 	
   
-	public Enemy (String identifier, int enemyType, int pointsLost, int pointsGained){
+	public Enemy (String identifier, int enemyType, int pointsLost, int pointsGained, int positionX, int positionY){
 		
 		this.identifier = identifier;
 		this.enemyType = Type.values()[enemyType];
